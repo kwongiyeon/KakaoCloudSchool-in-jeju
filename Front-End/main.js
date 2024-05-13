@@ -49,16 +49,16 @@ while (true) {
     //     <hr class="horizontal-rule"/>
     //     <img src="/Front/circle.png" width="36px" height="36px"> <small id="nickName">운영진</small>
     // `;
-    // 생성한 게시글을 컨테이너에 추가
-    container.appendChild(post);
+    // // 생성한 게시글을 컨테이너에 추가
+    // container.appendChild(post);
 
-    // 다음 게시글을 위해 카운트 증가
-    count++;
+    // // 다음 게시글을 위해 카운트 증가
+    // count++;
 
-    // 100번째 게시글까지만 생성 후 종료 (무한으로 생성하려면 조건을 변경하거나 제거하세요)
-    if (count > 100) {
-        break;
-    }
+    // // 100번째 게시글까지만 생성 후 종료 (무한으로 생성하려면 조건을 변경하거나 제거하세요)
+    // if (count > 100) {
+    //     break;
+    // }
 }
 
 // 초기에 페이지 로드될 때 새로운 게시글 추가
@@ -76,9 +76,9 @@ fetch("/DB.json")
 .then(data => {
     const posts = data.posts;
     // 새로운 게시글 요소 생성
-    const post = document.createElement('div');
-    post.className = 'container';
-    post.innerHTML = `
+    const postElement = document.createElement('div');
+    postElement.className = 'container';
+    postElement.innerHTML = `
         <a href="detail.html"><h1 id="posttitle">${generatePostTitle()}</h1></a>
         <div class = "footer">
         <div class = "count">
@@ -90,6 +90,12 @@ fetch("/DB.json")
         <hr class="horizontal-rule"/>
         <img src="/Front/circle.png" width="36px" height="36px"> <small id="nickName">운영진</small>
     `;
+    // 생성한 게시글을 컨테이너에 추가
+    container.appendChild(post);
+
+    // 다음 게시글을 위해 카운트 증가
+    count++;
+
     if (!formatNumber(number)) {
         return false;
     }

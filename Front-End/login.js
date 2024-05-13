@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-const dbFilePath = path.join(__dirname, '../Front/DB.json');
+// const dbFilePath = path.join(__dirname, '../Back/DB.json');
 
 const small = document.querySelector('.small');
 //이메일 유효성 체크
@@ -48,13 +48,7 @@ function readDBFile() {
 }
     
 // 서버로 요청을 보내는 fetch() 추가
-fetch('http://localhost:3000/api/data', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      // 다른 필요한 헤더 추가 가능
-    },
-})
+fetch('http://localhost:3000/login')
 .then(response => {
     if (response.ok) {
         return response.json();
@@ -69,35 +63,37 @@ fetch('http://localhost:3000/api/data', {
     const password = document.getElementById('password');
     const button1 = document.getElementById('button1');
 
-    button1.addEventListener("click", (event) => {
+    button1.addEventListener("click", async (event) => {
         event.preventDefault();
+        const data = await readDBFile(); // DB 파일 읽기
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
     
         // 이메일 유효성 검사
         if (!emailcheck(email)) {
+            alert("입력하신 계정 정보가 정확하지 않았습니다.");
             return false;
         }
         // 비밀번호 유효성 검사
         else if (!passwordcheck(password)) {
+            alert("입력하신 계정 정보가 정확하지 않았습니다.");
             return false;
         }
         else if (!passwordcf(users, email, password)) {
+            alert("입력하신 계정 정보가 정확하지 않았습니다.");
             return false;
         }
         else {
             button1.disabled = false; // 버튼 활성화
-            setTimeout(function() {
-                window.location.href = 'main.html';
-            }, 3000);   // 3초 후 페이지 이동
+            return window.location.href = "main.html";
+            
         }
     
         // 이메일과 비밀번호가 맞았을 때와 틀렸을 때
-        if (email === email.value && password === password.value) {
-            window.location.href = "main.html";
-        } else {
-            alert("입력하신 계정 정보가 정확하지 않았습니다.");
-        }
+        // if (email === email.value && password === password.value) {
+        // } else {
+        //     alert("입력하신 계정 정보가 정확하지 않았습니다.");
+        // }
     });
 
 })
