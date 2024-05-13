@@ -4,7 +4,6 @@ import cors from 'cors';
 import methodOverride from 'method-override';
 import path from 'path';
 import routes from './routes.js'
-import { users, posts, comments } from '../Front/DB.json';
 
 const app = express();
 const PORT = 3000;
@@ -15,13 +14,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(cors());
 app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, '../Front')));
+// app.use(express.static(path.join(__dirname, '../Front')));
 
 app.use(routes);
 // app.use('/users', userRouter);
 // app.use('/posts', postRouter);
 // app.use('/comments', commentRouter);
-
+app.get('/login')
 // 서버 실행
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

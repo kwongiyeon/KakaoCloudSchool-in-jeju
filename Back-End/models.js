@@ -1,4 +1,4 @@
-import { users, posts, comments } from '../Front/DB.json';
+import { users, posts, comments } from './DB.json';
 import routes from '../routes.js';
 
 // 사용자 목록 조회

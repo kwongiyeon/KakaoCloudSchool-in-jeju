@@ -1,4 +1,3 @@
-import { users, posts, comments } from '../Front/DB.json';
 import userModel from '../models/user';
 import postModel from '../models/post';
 import commentModel from '../models/comment';
