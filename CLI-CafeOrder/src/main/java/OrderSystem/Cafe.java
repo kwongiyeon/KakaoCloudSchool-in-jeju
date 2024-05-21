@@ -10,11 +10,27 @@ public class Cafe {
         this.price = price;
     }
 
-    public void display() {
-        System.out.println(name + ": " + price + "원");
+//    // 이름 설정자
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    // 이름 불러오기
+//    public String getName() {
+//        return name;
+//    }
+
+    // 가격 설정자(변경 가능)
+    public void setPrice(double price) {
+        this.price = price;
     }
 
+    //가격 불러오기
     public double getPrice() {
         return price;
+    }
+
+    public void display() {
+        System.out.println(name + ": " + price + "원");
     }
 }

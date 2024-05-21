@@ -1,15 +1,12 @@
 package OrderSystem;
 
+//카페가 커피를 상속함
 public class Coffee extends Cafe {
     private boolean isHot;
 
-    public Coffee(String name, double price, boolean isHot) {
-        super(name, price);
-        this.isHot = isHot;
-    }
-
     public Coffee(String name, double price) {
-        super(name, price); //부모 클래스(카페)로 값 넘기기
+        super(name, price);
+        this.isHot = false; //차갑게
     }
 
     @Override
