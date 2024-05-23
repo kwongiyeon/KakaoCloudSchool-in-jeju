@@ -29,7 +29,6 @@ public class Main {
                 new Dessert("에그타르트", 3500),
                 new Dessert("아이스크림 크로플", 4000)
         };
-        Customer customer = new Customer();  // Customer 객체 생성
 
         double coffeeTotal = 0; //주문 전 커피 개수 누적=0
         double dessertTotal = 0; //주문 전 디저트 개수 누적=0
@@ -54,7 +53,6 @@ public class Main {
             coffeeTotal = coffees[coffeeIndex].getPrice() * coffeeQuantity; //커피 총 개수
             String tempString = isHot ? "뜨겁게" : "차갑게";
             System.out.println("커피" + coffeeQuantity + "개의 " + coffees[coffeeIndex].name + " (" + tempString + ") 주문이 완료되었습니다.");
-            customer.addCoupon(coffeeQuantity);  // 커피 주문 시 쿠폰 추가
 
             // 디저트 주문
             System.out.println("디저트도 추가 하시겠습니까?");
@@ -82,10 +80,11 @@ public class Main {
                     desserts[dessertIndex].setSliced(isSliced);
                     System.out.println("디저트" + dessertQuantity + "개의 " + desserts[dessertIndex].name +
                             " (" + (isSliced ? "잘라서 제공" : "그대로 제공") + ") 주문이 완료되었습니다.");
-                    customer.addCoupon(dessertQuantity);  // 디저트 주문 시 쿠폰 추가
                 }
+
                 // 주문 확인 및 총액 계산
                 double totalAmount = coffeeTotal + dessertTotal;
+                int totalItems = coffeeQuantity + dessertQuantity; //총 주문한 커피+디저트 갯수
                 do {
                     System.out.println("총 " + (coffeeQuantity + (dessertYesNo == 1 ? dessertQuantity : 0)) + "개 맞으실까요?");
                     System.out.println("1. 네 맞아요.");
@@ -97,6 +96,37 @@ public class Main {
                         Pay payment = new Pay("총 주문", totalAmount);
                         payment.processPayment();  // 결제 과정 실행
                         System.out.println("주문해주셔서 감사합니다! 맛있게 드세요^^");
+
+                        //쿠폰 회원 등록 여부
+                        System.out.println("회원으로 등록하시겠습니까?");
+                        System.out.println("1. 네");
+                        System.out.println("2. 아니요");
+                        int registerChoice = scanner.nextInt(); //쿠폰 적립하기 위해 회원으로 등록할 건지 아닌지 결정
+                        if (registerChoice == 1) {
+                            scanner.nextLine(); // 버퍼 비우기
+                            System.out.print("회원 닉네임을 입력해주세요: ");
+                            String nickName = scanner.nextLine();
+                            System.out.print("회원 번호를 입력해주세요 (4자리 숫자): ");
+                            int number;
+                            while (true) {
+                                number = scanner.nextInt();
+                                if (String.valueOf(number).length() == 4) {
+                                    break;
+                                } else {
+                                    System.out.print("4자리 숫자를 입력해주세요: ");
+                                }
+                            }
+                            Member member = new Member(nickName, number);
+                            member.addCoupon(totalItems);  // 총 주문한 메뉴 개수만큼 쿠폰 추가
+                            System.out.println("회원 등록이 완료되었습니다! 닉네임: " + member.getNickName() + ", 회원 번호: " + member.getNumber());
+                            System.out.println("총 " + totalItems + "개의 쿠폰이 추가되었습니다.");
+
+                            // 쿠폰이 10장 이상일 때 아메리카노 1잔 무료 제공
+                            if (member.getCouponCount() >= 10) {
+                                member.useCoupon(10);  // 쿠폰 10장 차감
+                                System.out.println("축하합니다! 쿠폰 10장이 모여 아메리카노 한 잔이 무료로 제공됩니다!");
+                            }
+                        }
                         break;  // 주문이 확정되면 루프 탈출
                     } else {    //추가로 주문할 경우
                         System.out.println("어떤 걸 추가하시겠습니까? 1. 커피 2. 디저트");
@@ -119,7 +149,6 @@ public class Main {
                             coffeeTotal += coffees[coffeeIndex].getPrice() * coffeeQuantity;    //커피 총 개수
                             tempString = isHot ? "뜨겁게" : "차갑게";
                             System.out.println(coffeeQuantity + "개의 " + coffees[coffeeIndex].name + " (" + tempString + ") 주문이 완료되었습니다.");
-                            customer.addCoupon(coffeeQuantity);  // 커피 주문 시 쿠폰 추가
                         } else if (addOrder == 2) {
                             // 디저트 추가 주문 로직
                             for (int j = 0; j < desserts.length; j++) {
@@ -145,13 +174,12 @@ public class Main {
                                 desserts[dessertIndex].setSliced(isSliced);
                                 System.out.println("디저트" + dessertQuantity + "개의 " + desserts[dessertIndex].name +
                                         " (" + (isSliced ? "잘라서 제공" : "그대로 제공") + ") 주문이 완료되었습니다.");
-                                customer.addCoupon(dessertQuantity);  // 디저트 주문 시 쿠폰 추가
                             }
                             // 각 주문 후 총액 다시 계산
                             totalAmount = coffeeTotal + dessertTotal;   //기존 주문 메뉴 개수 + 추가 주문 메뉴 개수
                         }
                     }   //추가 주문 완료
-                }while (true) ;  // 조건이 true이므로 무한 루프, 주문 확정이나 추가 주문을 통해 루프를 탈출 -> 주문 확인 완료
+                }while (true);  // 조건이 true이므로 무한 루프, 주문 확정이나 추가 주문을 통해 루프를 탈출 -> 주문 확인 완료
         }   //ordering 종료
     }
 }
