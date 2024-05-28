@@ -17,6 +17,7 @@ public class Main {
         System.out.println("어서오세요! ‘내가 제일 좋아하는 카페’에 오신 걸 환영합니다^^ 주문하시겠습니까?");
 
         // 커피 주문 스레드 실행
+        System.out.println("싼 가격으로 오늘의 커피(랜덤)를 드시겠습니까?");
         Coffee coffeeOrderTask = new Coffee(scanner);
         Thread coffeeThread = new Thread(coffeeOrderTask);
         coffeeThread.start();
@@ -76,7 +77,6 @@ public class Main {
         try {
             membershipThread.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
             System.out.println("멤버십 생성 중 오류가 발생하였습니다. 다시 생성합니다.");
         }
 
