@@ -1,18 +1,19 @@
 package OrderSystem.Thread;
 
 import OrderSystem.Member;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    private static Map<Integer, Member> members = new HashMap<>();
+    private static Map<String, Member> members = new HashMap<>(); // 키 타입을 String으로 변경
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        double coffeeTotal = 0;     // 주문 전 커피 금액 누적=0
-        double dessertTotal = 0;    // 주문 전 디저트 금액 누적=0
+        double coffeeTotal = 0;     // 커피 누적 개수 0으로 초기화
+        double dessertTotal = 0;    // 디저트 누적 개수 0으로 초기화
         System.out.println("어서오세요! ‘내가 제일 좋아하는 카페’에 오신 걸 환영합니다^^ 주문하시겠습니까?");
 
         // 커피 주문 스레드 실행
@@ -24,7 +25,7 @@ public class Main {
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
-        coffeeTotal = coffeeOrderTask.getCoffeeTotal(); // 커피 주문 총 금액
+        coffeeTotal = coffeeOrderTask.getCoffeeTotal();
 
         System.out.println("디저트도 추가 하시겠습니까?");
         System.out.println("1. 네! 같이 주문 할게요.");
@@ -42,10 +43,10 @@ public class Main {
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
             }
-            dessertTotal = dessertOrderTask.getDessertTotal();  // 디저트 주문 총 금액
+            dessertTotal = dessertOrderTask.getDessertTotal();
         }
 
-        double totalAmount = coffeeTotal + dessertTotal;    // 커피+디저트 주문 총 금액
+        double totalAmount = coffeeTotal + dessertTotal;
         int totalItems = 0;  // 총 주문한 메뉴 개수 계산 로직 생략
 
         // 식사/포장 선택 스레드 실행
@@ -75,7 +76,8 @@ public class Main {
         try {
             membershipThread.join();
         } catch (InterruptedException e) {
-            System.out.println("멤버십 생성 중 오류가 발생하였습니다. 다시 생성합니다...");
+            e.printStackTrace();
+            System.out.println("멤버십 생성 중 오류가 발생하였습니다. 다시 생성합니다.");
         }
 
         // 주문 완료 멘트

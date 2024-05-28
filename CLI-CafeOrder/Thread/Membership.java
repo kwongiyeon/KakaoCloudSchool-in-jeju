@@ -7,9 +7,9 @@ public class Membership extends Thread {
     private double totalAmount;
     private int totalItems;
     private Scanner scanner;
-    private Map<Integer, Member> members;
+    private Map<String, Member> members; // Member map의 키 타입을 String으로 변경
 
-    public Membership(Scanner scanner, double totalAmount, int totalItems, Map<Integer, Member> members) {
+    public Membership(Scanner scanner, double totalAmount, int totalItems, Map<String, Member> members) {
         this.scanner = scanner;
         this.totalAmount = totalAmount;
         this.totalItems = totalItems;
@@ -29,10 +29,10 @@ public class Membership extends Thread {
             System.out.print("회원 닉네임을 입력해주세요: ");
             String nickName = scanner.nextLine();
             System.out.print("회원 번호를 입력해주세요 (4자리 숫자): ");
-            int number;
+            String number;
             while (true) {
-                number = scanner.nextInt();
-                if (String.valueOf(number).length() == 4) {
+                number = scanner.next();
+                if (number.length() == 4 && number.matches("\\d{4}")) {
                     break;
                 } else {
                     System.out.print("4자리 숫자를 입력해주세요: ");
