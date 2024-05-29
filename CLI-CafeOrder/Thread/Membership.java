@@ -3,7 +3,7 @@ import OrderSystem.Member;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Membership extends Thread {
+public class Membership implements Runnable {
     private double totalAmount;
     private int totalItems;
     private Scanner scanner;
