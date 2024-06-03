@@ -3,89 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" type="text/css" href="detail.css">
     <title> 게시글 상세조회 </title>
-    </head>
-    <body>
-        <section class="wrap">
-            <article class="header">
-                <h1>아무 말 대잔치</h1>
-                <div class="profile"><img src="image.png" alt="프로필 이미지" class="profile"></div>
-            </article>
-            <hr class="horizontal-rule"/>
+</head>
+<body>
+    <section class="wrap">
+        <article class="header">
+            <h1>아무 말 대잔치</h1>
+            <div class="profile"><img src="image.png" alt="프로필 이미지" class="profile"></div>
+        </article>
+        <hr class="horizontal-rule"/>
 
-            <article class="post">
-                <div class="postdetail">
-                    <h1>제목 1</h1>
-                    <img src="circle.png" width="36px" height="36px" name="photo">
-                    <small>더미 작성자 1
-                        <div class="datetime">
-                            <small>2021-01-01 00:00:00</small>
-                        </div></small>
+        <article class="post">
+            <div class="postdetail">
+                <h1 id="posttitle">제목</h1>
+                <img id="photo" src="circle.png" width="36px" height="36px" name="photo" alt="프로필 이미지">
+                <small id="nickName">작성자
+                    <div class="datetime">
+                        <small id="datetime">작성일</small>
+                    </div>
+                </small>
 
-                    <div class="controlBtns">
-                        <button type="submit" id="postdelete">삭제</button>
-                        <div class="po_modal">
-                            <div class="modal_popup">
-                                <h3 style="text-align: center;">게시글을 삭제하시겠습니까?</h3>
-                                <p>삭제한 내용은 복구 할 수 없습니다.</p>
-                                <div class="mobt">
-                                    <button type="button" class="close_btn">취소</button>
-                                    <button type="button" class="yes_btn">확인</button>
-                                </div>
+                <div class="controlBtns">
+                    <button type="submit" id="postdelete">삭제</button>
+                    <div class="po_modal">
+                        <div class="modal_popup">
+                            <h3 style="text-align: center;">게시글을 삭제하시겠습니까?</h3>
+                            <p>삭제한 내용은 복구할 수 없습니다.</p>
+                            <div class="mobt">
+                                <button type="button" class="close_btn">취소</button>
+                                <button type="button" class="yes_btn">확인</button>
                             </div>
                         </div>
-                        <button type="submit" id="postmodify"><a href="postupdate.html">수정</a></button>
                     </div>
+                    <button type="submit" id="postmodify"><a href="postupdate.html">수정</a></button>
                 </div>
+            </div>
 
-                <div class="contents">
-                    <p id="content">
-                    <img id="image" src="rect.png" alt="게시글 이미지"> <br>
-                    무엇을 얘기할까요? 아무말이라면, 삶은 항상 놀라운 모험이라고 생각합니다. 우리는 매일 새로운 경험을 하고 배우며 성장합니다. 때로는 어려움과 도전이 있지만, 그것들이 우리를 더 강하고 지혜롭게 만듭니다. 또한 우리는 주변의 사람들과 연결되며 사랑과 지지를 받습니다. 
-                    그래서 우리의 삶은 소중하고 의미가 있습니다.
-                    자연도 아름다운 이야기입니다. 우리 주변의 자연은 끝없는 아름다움과 신비로움을 담고 있습니다. 산, 바다, 숲, 하늘 등 모든 것이 우리를 놀라게 만들고 감동시킵니다. 자연은 우리의 생명과 안정을 지키며 우리에게 힘을 주는 곳입니다.
-                    마지막으로, 지식을 향한 탐구는 항상 흥미로운 여정입니다. 우리는 끝없는 지식의 바다에서 배우고 발견할 수 있으며, 이것이 우리를 더 깊이 이해하고 세상을 더 넓게 보게 해줍니다.
-                    그런 의미에서, 삶은 놀라움과 경이로움으로 가득 차 있습니다. 새로운 경험을 즐기고 항상 앞으로 나아가는 것이 중요하다고 생각합니다.
-                    </p>
-                </div>
-    
-                <div class="container">
-                    <div id="items">조회수<br>123</div>
-                    <div id="items">댓글<br>123</div>
-                </div>
-    
-                <div class="card-footer">
-                    <textarea id="comment" rows="10" cols="50" spellcheck="false" data-ms-editor="true">댓글을 남겨주세요!</textarea>
-                    <button type="submit" id="button1">댓글 등록</button>
+            <div class="contents">
+                <img id="image" src="" alt="게시글 이미지" style="display: none;">
+                <p id="content">게시글 내용</p>
+            </div>
 
-                    <div class="communicateList">
-                        <article class="comment">
-                                <div class="info">
-                                    <img src="circle.png" width="36px" height="36px"> <small id = "ninkName">더미 작성자 1</small>
-                                    <span class="date">2021-01-01 00:00:00</span>
-                                </div>
-                                <div class="controlBtns">
-                                    <button type="submit" class="cmdelete" name="cmdelete">삭제</button>
-                                    <div class="cm_modal">
-                                        <div class="modal_popup">
-                                            <h3 style="text-align: center;">댓글을 삭제하시겠습니까?</h3>
-                                            <p>삭제한 내용은 복구 할 수 없습니다.</p>
-                                            <div class="mobt">
-                                                <button type="button" class="close_btn">취소</button>
-                                                <button type="button" class="yes_btn">확인</button>
-                                            </div>
+            <div class="container">
+                <div id="items">조회수<br>123</div>
+                <div id="items">댓글<br>123</div>
+            </div>
+
+            <div class="card-footer">
+                <textarea id="comment" rows="10" cols="50" spellcheck="false" data-ms-editor="true">댓글을 남겨주세요!</textarea>
+                <button type="submit" id="button1">댓글 등록</button>
+
+                <div class="communicateList">
+                    <!-- <article class="comment">
+                            <div class="info">
+                                <img src="circle.png" width="36px" height="36px"> <small id = "nickName">더미 작성자 1</small>
+                                <span class="date">2021-01-01 00:00:00</span>
+                            </div>
+                            <div class="controlBtns">
+                                <button type="submit" class="cmdelete" name="cmdelete">삭제</button>
+                                <div class="cm_modal">
+                                    <div class="modal_popup">
+                                        <h3 style="text-align: center;">댓글을 삭제하시겠습니까?</h3>
+                                        <p>삭제한 내용은 복구 할 수 없습니다.</p>
+                                        <div class="mobt">
+                                            <button type="button" class="close_btn">취소</button>
+                                            <button type="button" class="yes_btn">확인</button>
                                         </div>
                                     </div>
-                                    <button type="submit" class="cmmodify" name="cmmodify">수정</button>
                                 </div>
-                                <p class="cmcontent">댓글 내용</p>
-                        </article>
-                    </div>
+                                <button type="submit" class="cmmodify" name="cmmodify">수정</button>
+                            </div>
+                            <p class="cmcontent">댓글 내용</p>
+                    </article> -->
                 </div>
-            </article>
-            <script src="detail.js"></script>
-        </section>
-    </body>
+            </div>
+        </article>
+        <script src="detail.js"></script>
+    </section>
+</body>
 </html>

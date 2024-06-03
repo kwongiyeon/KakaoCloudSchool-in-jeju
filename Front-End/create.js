@@ -16,6 +16,7 @@ function loadFile(input) {
     };
     reader.readAsDataURL(file);
 }
+    window.loadFile = loadFile; // 이 부분을 추가하여 loadFile 함수를 전역으로 설정
 
     // 프로필 사진 유효성 검사
     function imgcheck(chooseFile) {
@@ -46,6 +47,15 @@ function loadFile(input) {
         }   return true;
     }
 
+    //이메일 유효성 검사
+    if (email == "") {
+        emailtext.InnerText = "*이메일을 입력해주세요.";
+    } else if (!emailRegex.test(email)) {
+        emailtext.InnerText = "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
+    } else if (!duplicateEmail(users,email)) {
+        emailtext.InnerText = "*중복된 이메일입니다.";
+    }
+
     //비밀번호 입력(유효성 체크, 입력 안 했을 때, 틀렸을 때)
     function passwordcheck(password) {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
@@ -72,10 +82,8 @@ function loadFile(input) {
     }
         if (!confirmPassword(users, email, password)) {
             alert("*비밀번호가 다릅니다.");
-            return false;
         } else if (confirmPassword.value === "") {
             alert("*비밀번호를 한 번 더 입력해주세요.");
-            return false;
         } else if (password.value === confirmPassword.value) {
             return true;
         };
@@ -120,42 +128,9 @@ function loadFile(input) {
         }
         else {
             button1.disabled = false; // 버튼 활성화
-            window.location.href = "http://127.0.0.1:5500/login.html";
+            window.location.href = "http://localhost:3000/login.html";
             alert('회원가입하였습니다. 로그인 해 주세요.');
         }
-    }
-
-
-// 서버로 요청을 보내는 fetch() 추가
-fetch('/DB.json')
-//서버 요청에 대한 응답이 왔을 때 실행, 응답을 JSON으로 파싱(문자열->json 데이터)
-.then(response => {
-    if (response.ok) {
-        return response.json();
-    } else {
-        throw new Error('서버에서 오류가 발생했습니다.');
-    }
-})
-// json 데이터로 변경되면 전달
-.then(data => {
-   const users = data.users;
-
-   button1.addEventListener("click", (Event) => {
-    Event.preventDefault();
-    const chooseFile = document.getElementById('chooseFile').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const nickName = document.getElementById('nickName').value;
-    const duplicateEmail = document.getElementById('email').value;
-
-    if (email == "") {
-        emailtext.InnerText = "*이메일을 입력해주세요.";
-        return false;
-    } else if (!emailRegex.test(email)) {
-        emailtext.InnerText = "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
-    } else if (!duplicateEmail(users,email)) {
-        emailtext.InnerText = "*중복된 이메일입니다.";
     }
     
         // 프로필 사진 함수 호출
@@ -197,19 +172,54 @@ fetch('/DB.json')
         if (!check()) {
             return;
         };
+
+   button1.addEventListener("click", (Event) => {
+    Event.preventDefault();
+    const formData = new FormData();
+    formData.append('chooseFile', chooseFile.files[0]);
+    formData.append('email', email.value);
+    formData.append('password', password.value);
+    formData.append('confirmPassword', confirmPassword.value);
+    formData.append('nickName', nickName.value);
+
+    const chooseFile = document.getElementById('chooseFile').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const nickName = document.getElementById('nickName').value;
+    const duplicateEmail = document.getElementById('email').value;
+
+    fetch('http://localhost:3000/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            chooseFile: chooseFile.value,
+            email: email.value,
+            password: password.value,
+            nickName: nickName.value
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('서버에서 오류가 발생했습니다.');
+        }
+    })
+    .then(data => {
+        alert('회원가입이 성공적으로 완료되었습니다.');
+        window.location.href = 'login.html';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('회원가입 중 오류가 발생했습니다.');
+    });
 });
-
-})
-
-//에러 처리
-.catch(error => {
-    console.error(error);
-    alert('서버에 연결할 수 없습니다.');
-});
-
 
 const button2 = document.getElementById('button2');
 
 button2.addEventListener("click", (Event) => {
-    window.location.href = "http://127.0.0.1:5500/login.html";
+    window.location.href = "login.html";
 });

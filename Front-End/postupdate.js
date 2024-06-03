@@ -1,46 +1,85 @@
-import fs from 'fs';
-import path from 'path';
-const dbFilePath = path.join(__dirname, '../Front/DB.json');
-const button = document.getElementById('button');
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const postId = urlParams.get('postId');
+  const titleInput = document.getElementById('posttitle');
+  const contentInput = document.getElementById('content');
+  const chooseFile = document.getElementById('chooseFile');
 
-//제목, 내용 입력
-function makePost() {
-  const engCheck = /[a-z]/;
-  const numCheck = /[0-9]/;
-  const specialCheck = /[`~!@#$%^&*|\\\'\";:\/?]/;
-}
+  // 현재 게시글 정보를 불러와서 폼에 채우기
+  fetch(`http://localhost:3000/posts/${postId}`)
+    .then(response => response.json())
+    .then(post => {
+        document.getElementById('posttitle').value = post.posttitle;
+        document.getElementById('content').value = post.content;
+        if (post.chooseFile) {
+            const chooseFileElement = document.getElementById('chooseFile');
+            chooseFileElement.setAttribute('data-url', post.chooseFile);
+        }
+    })
+    .catch(error => {
+        console.error('게시글 정보를 불러오는 중 오류가 발생했습니다:', error);
+    });
 
-// 서버로 요청을 보내는 fetch() 추가
-fetch('/DB.json')
+  // 제목과 내용을 검증하는 함수
+  function makePost() {
+      const posttitle = titleInput.value.trim();
+      const content = contentInput.value.trim();
 
-.then(response => {
-  if (response.ok) {
-    return response.json();
-  } else {
-    throw new Error('서버에서 오류가 발생했습니다.');
+      if (posttitle === "" || content === "") {
+          alert("*제목, 내용을 모두 작성해주세요");
+          return false;
+      }
+
+      return true;
   }
-  })
 
-.then(data => {
-  const users = data.users;
-  const posts = data.posts;
-  
-  button.addEventListener("click", (event) => {
-    event.preventDefault();
-    const posttitle = document.getElementById('posttitle').value;
-    const content = document.getElementById('content').value;
+  const button = document.getElementById('button');
+  button.addEventListener('click', (event) => {
+      event.preventDefault();
 
-      if (posttitle == "" || content == "") {   //제목, 내용 필수 입력
+      if (!makePost()) {
+        return;
+      }
+
+      const posttitle = document.getElementById('posttitle').value;
+      const content = document.getElementById('content').value;
+      const chooseFile = document.getElementById('chooseFile').files[0];
+
+      if (!posttitle || !content) {
           alert("*제목, 내용을 모두 작성해주세요");
           button.disabled = true; // 비활성화
-      } 
-      else {
-          button.disabled = false; // 활성화
+          return;
       }
-    })
 
-  // 게시글 작성 함수 호출
-    if (!makePost()) {
-      return;
-    };
+      button.disabled = false; // 활성화
+
+      const updatedPost = {
+          posttitle: posttitle,
+          content: content,
+          datetime: new Date().toISOString()
+      };
+
+      if (chooseFile) {
+          updatedPost.chooseFile = URL.createObjectURL(chooseFile);
+      } else if (document.getElementById('chooseFile').dataset.url) {
+          updatedPost.chooseFile = document.getElementById('chooseFile').dataset.url;
+      }
+
+      fetch(`http://localhost:3000/posts/${postId}`, {
+          method: 'PATCH',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedPost)
+      })
+      .then(response => response.json())
+      .then(data => {
+          alert('게시글이 성공적으로 수정되었습니다.');
+          window.location.href = `http://localhost:8000/detail.html?postId=${postId}`; // 게시글 상세 페이지로 리디렉션
+      })
+      .catch(error => {
+          console.error('게시글 수정 중 오류가 발생했습니다:', error);
+          alert('게시글 수정 중 오류가 발생했습니다.');
+      });
+  });
 });

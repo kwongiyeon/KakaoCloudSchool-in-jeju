@@ -37,12 +37,13 @@
                 <p><b>이미지</b></p>
                 <form method="post" enctype="multipart/form-data">
                     <input type="file" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile(this)">
+                    <img id="output" src="#" alt="이미지 미리보기" style="display: none;">
                 </form>
             </div>
         </div>
-            <button type="submit" id="button"><a href="detail.html">완료</a></button>
-        <script src="posting.js"></script>        
+            <button type="submit" id="button"><a href="detail.html">완료</a></button>      
         </form>
         </section>
+        <script src="posting.js"></script> 
     </body>
 </html>
