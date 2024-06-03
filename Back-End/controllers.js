@@ -1,153 +1,74 @@
-import userModel from '../models/user';
-import postModel from '../models/post';
-import commentModel from '../models/comment';
-import routes from '../routes.js';
-import models from './models';
+import { getAllUsers, getUserByEmail, createUser, updateUser, deleteUser, getAllPosts, getPostById, createPost, updatePost, deletePost, getAllComments, getCommentsByPostId, createComment, updateComment, deleteComment } from './models.js';
 
-const userController = {
-  // 모든 사용자 가져오기
+export const userController = {
   getAllUsers: (req, res) => {
-    const allUsers = userModel.getAllUsers();
-    res.json(allUsers);
+    res.json(getAllUsers());
   },
-
-  // 사용자 이메일로 가져오기
   getUserByEmail: (req, res) => {
-    const { email } = req.params;
-    const user = userModel.getUserByEmail(email);
+    const user = getUserByEmail(req.params.email);
     if (user) {
       res.json(user);
     } else {
-      res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
+      res.status(404).json({ message: 'User not found' });
     }
   },
-
-  // 사용자 추가하기
   addUser: (req, res) => {
-    const newUser = req.body;
-    const addedUser = userModel.addUser(newUser);
-    res.status(201).json(addedUser);
+    createUser(req.body);
+    res.status(201).json(req.body);
   },
-
-  // 사용자 정보 업데이트하기
   updateUser: (req, res) => {
-    const { email } = req.params;
-    const updatedUser = req.body;
-    const result = userModel.updateUser(email, updatedUser);
-    if (result) {
-      res.json({ message: '사용자 정보가 업데이트되었습니다.' });
-    } else {
-      res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
-    }
+    updateUser(req.params.email, req.body);
+    res.json({ message: 'User updated' });
   },
-
-  // 사용자 삭제하기
   deleteUser: (req, res) => {
-    const { email } = req.params;
-    const result = userModel.deleteUser(email);
-    if (result) {
-      res.json({ message: '사용자가 삭제되었습니다.' });
-    } else {
-      res.status(404).json({ message: '사용자를 찾을 수 없습니다.' });
-    }
+    deleteUser(req.params.email);
+    res.json({ message: 'User deleted' });
   }
 };
 
-
-const postController = {
-  // 모든 게시물 가져오기
+export const postController = {
   getAllPosts: (req, res) => {
-    const allPosts = postModel.getAllPosts();
-    res.json(allPosts);
+    res.json(getAllPosts());
   },
-
-  // 게시물 ID로 가져오기
   getPostById: (req, res) => {
-    const { postId } = req.params;
-    const post = postModel.getPostById(parseInt(postId));
+    const post = getPostById(parseInt(req.params.postId));
     if (post) {
       res.json(post);
     } else {
-      res.status(404).json({ message: '게시물을 찾을 수 없습니다.' });
+      res.status(404).json({ message: 'Post not found' });
     }
   },
-
-  // 게시글 추가하기
   addPost: (req, res) => {
-    const newPost = req.body;
-    const addedPost = postModel.addPost(newPost);
-    res.status(201).json(addedPost);
+    createPost(req.body);
+    res.status(201).json(req.body);
   },
-
-  // 게시글 업데이트하기
   updatePost: (req, res) => {
-    const { postId } = req.params;
-    const updatedPost = req.body;
-    const result = postModel.updatePost(postId, updatedPost);
-    if (result) {
-      res.json({ message: '게시글이 업데이트되었습니다.' });
-    } else {
-      res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
-    }
+    updatePost(req.params.postId, req.body);
+    res.json({ message: 'Post updated' });
   },
-
-  // 게시글 삭제하기
   deletePost: (req, res) => {
-    const { postId } = req.params;
-    const result = postModel.deletePost(postId);
-    if (result) {
-      res.json({ message: '게시글이 삭제되었습니다.' });
-    } else {
-      res.status(404).json({ message: '게시글을 찾을 수 없습니다.' });
-    }
+    deletePost(req.params.postId);
+    res.json({ message: 'Post deleted' });
   }
 };
 
-
-const commentController = {
-  // 모든 댓글 가져오기
+export const commentController = {
   getAllComments: (req, res) => {
-    const allComments = commentModel.getAllComments();
-    res.json(allComments);
+    res.json(getAllComments());
   },
-
-  // 게시물 ID로 댓글 가져오기
   getCommentsByPostId: (req, res) => {
-    const { postId } = req.params;
-    const comments = commentModel.getCommentsByPostId(parseInt(postId));
-    res.json(comments);
+    res.json(getCommentsByPostId(parseInt(req.params.postId)));
   },
-
-  // 댓글 추가하기
   addComment: (req, res) => {
-    const { postId } = req.params;
-    const newComment = req.body;
-    const addedComment = commentModel.addComment(parseInt(postId), newComment);
-    res.status(201).json(addedComment);
+    createComment({ postId: parseInt(req.params.postId), ...req.body });
+    res.status(201).json(req.body);
   },
-
-  // 댓글 업데이트하기
   updateComment: (req, res) => {
-    const { commentId } = req.params;
-    const updatedComment = req.body;
-    const result = commentModel.updateComment(parseInt(commentId), updatedComment);
-    if (result) {
-      res.json({ message: '댓글이 업데이트되었습니다.' });
-    } else {
-      res.status(404).json({ message: '댓글을 찾을 수 없습니다.' });
-    }
+    updateComment(req.params.commentId, req.body);
+    res.json({ message: 'Comment updated' });
   },
-
-  // 댓글 삭제하기
   deleteComment: (req, res) => {
-    const { commentId } = req.params;
-    const result = commentModel.deleteComment(parseInt(commentId));
-    if (result) {
-      res.json({ message: '댓글이 삭제되었습니다.' });
-    } else {
-      res.status(404).json({ message: '댓글을 찾을 수 없습니다.' });
-    }
+    deleteComment(req.params.commentId);
+    res.json({ message: 'Comment deleted' });
   }
 };
-
-export default { userController, postController, commentController, routes };
