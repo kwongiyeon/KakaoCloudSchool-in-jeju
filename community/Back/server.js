@@ -4,6 +4,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+// import connection from './mysql.js';
 
 const app = express();
 const PORT = 3000;
@@ -22,6 +23,83 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
+
+// <-- SQL 연결 코드 시작 -->
+// MySQL 연결
+// connection.connect(err => {
+//     if (err) {
+//         console.error('MySQL 연결 실패:', err);
+//         return;
+//     }
+//     console.log('MySQL 연결 성공');
+// });
+
+// // 모든 유저 가져오기
+// app.get('/users', (req, res) => {
+//     connection.query('SELECT * FROM Users', (error, results) => {
+//         if (error) {
+//             console.error('쿼리 실패:', error);
+//             res.status(500).send('서버 오류');
+//             return;
+//         }
+//         res.json(results);
+//     });
+// });
+
+// // 회원가입 처리
+// app.post('/create', (req, res) => {
+//     const { email, password, nickName, chooseFile } = req.body;
+
+//     const newUser = {
+//         email,
+//         password,
+//         nickName,
+//         chooseFile
+//     };
+
+//     const query = 'INSERT INTO Users (email, password, nickName, chooseFile) VALUES (?, ?, ?, ?)';
+//     connection.query(query, [newUser.email, newUser.password, newUser.nickName, newUser.chooseFile], (error, results) => {
+//         if (error) {
+//             console.error('유저 생성 실패:', error);
+//             res.status(500).send('서버 오류');
+//             return;
+//         }
+//         res.json({ success: true, user: newUser });
+//     });
+// });
+
+// // 유저 삭제 처리
+// app.delete('/users/:userId', (req, res) => {
+//     const { userId } = req.params;
+
+//     const query = 'DELETE FROM Users WHERE id = ?';
+//     connection.query(query, [userId], (error, results) => {
+//         if (error) {
+//             console.error('유저 삭제 실패:', error);
+//             res.status(500).send('서버 오류');
+//             return;
+//         }
+//         res.json({ success: true, message: 'User deleted successfully' });
+//     });
+// });
+
+// // 유저 정보 수정 처리
+// app.patch('/users/:userId', (req, res) => {
+//     const { userId } = req.params;
+//     const { email, password, nickName, chooseFile } = req.body;
+
+//     const query = 'UPDATE Users SET email = ?, password = ?, nickName = ?, chooseFile = ? WHERE id = ?';
+//     connection.query(query, [email, password, nickName, chooseFile, userId], (error, results) => {
+//         if (error) {
+//             console.error('유저 수정 실패:', error);
+//             res.status(500).send('서버 오류');
+//             return;
+//         }
+//         res.json({ success: true, message: 'User updated successfully' });
+//     });
+// });
+
+// <-- SQL 연결 코드 끝 -->
 
 // 데이터 파일 경로
 const dbFilePath = path.join(__dirname, 'DB.json');
