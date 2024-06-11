@@ -1,26 +1,39 @@
-import express from 'express';
-import { userController, postController, commentController } from './controllers.js';
+const express = require('express');
+const {
+    login,
+    createUser,
+    deleteUser,
+    updateUser,
+    getAllPosts,
+    getPostById,
+    createPost,
+    updatePost,
+    deletePost,
+    getCommentsByPostId,
+    createComment,
+    updateComment,
+    deleteComment
+} = require('./controllers');
 
 const router = express.Router();
 
 // 사용자 관련 라우트
-router.get('/users', userController.getAllUsers);
-router.get('/users/:email', userController.getUserByEmail);
-router.post('/users', userController.addUser);
-router.patch('/users/:email', userController.updateUser);
-router.delete('/users/:email', userController.deleteUser);
+router.post('/login', login);
+router.post('/create', createUser);
+router.delete('/users/:userId', deleteUser);
+router.patch('/users/:userId', updateUser);
 
 // 게시물 관련 라우트
-router.get('/posts', postController.getAllPosts);
-router.get('/posts/:postId', postController.getPostById);
-router.post('/posts', postController.addPost);
-router.patch('/posts/:postId', postController.updatePost);
-router.delete('/posts/:postId', postController.deletePost);
+router.get('/posts', getAllPosts);
+router.get('/posts/:postId', getPostById);
+router.post('/posts', createPost);
+router.patch('/posts/:postId', updatePost);
+router.delete('/posts/:postId', deletePost);
 
 // 댓글 관련 라우트
-router.get('/posts/:postId/comments', commentController.getCommentsByPostId);
-router.post('/posts/:postId/comments', commentController.addComment);
-router.patch('/posts/:postId/comments/:commentId', commentController.updateComment);
-router.delete('/posts/:postId/comments/:commentId', commentController.deleteComment);
+router.get('/posts/:postId/comments', getCommentsByPostId);
+router.post('/posts/:postId/comments', createComment);
+router.patch('/posts/:postId/comments/:commentId', updateComment);
+router.delete('/posts/:postId/comments/:commentId', deleteComment);
 
-export default router;
+module.exports = router;
