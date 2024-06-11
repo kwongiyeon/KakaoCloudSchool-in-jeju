@@ -1,21 +1,27 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const fs = require('fs');
+const path = require('path');
 
 // 데이터 파일 경로
 const dbFilePath = path.join(__dirname, 'DB.json');
 
 // 데이터 읽기 함수
-export const readData = () => {
-    const data = fs.readFileSync(dbFilePath, 'utf8');
+const readData = () => {
+    try {
+        const data = fs.readFileSync(dbFilePath, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Error reading data from DB.json:', error);
+        return null;
+    }
 };
 
 // 데이터 쓰기 함수
 const writeData = (data) => {
-    fs.writeFileSync(dbFilePath, JSON.stringify(data, null, 2), 'utf8');
+    try {
+        fs.writeFileSync(dbFilePath, JSON.stringify(data, null, 2), 'utf8');
+    } catch (error) {
+        console.error('Error writing data to DB.json:', error);
+    }
 };
 
 const getAllUsers = () => readData().users;
@@ -92,7 +98,9 @@ const deleteComment = (commentId) => {
     }
 };
 
-export {
+module.exports = {
+    readData,
+    writeData,
     getAllUsers,
     getUserByEmail,
     createUser,
