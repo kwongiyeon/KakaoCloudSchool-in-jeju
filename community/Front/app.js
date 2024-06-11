@@ -1,13 +1,10 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import cors from 'cors';
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const { fileURLToPath } = require('url');
 
 const app = express();
 const PORT = 8000;
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, './')));
 app.use(cors());
