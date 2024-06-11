@@ -149,29 +149,38 @@ document.addEventListener('DOMContentLoaded', () => {
         // 닉네임 중복 함수 호출
         if (!duplicateNickName(users, nickName)) {
             return;
-        };        
+        };
 
-        const formData = new FormData();
-        formData.append('chooseFile', chooseFile);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('nickName', nickName);
+        // JSON 형식으로 데이터 전송
+        const data = {
+            email: email,
+            password: password,
+            nickName: nickName,
+            chooseFile: chooseFile ? chooseFile.name : null // 파일 경로 문자열로 전송
+        };
 
         try {
             const response = await fetch('http://localhost:3000/create', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             });
 
             if (response.ok) {
-                const data = await response.json();
-                alert('회원가입이 성공적으로 완료되었습니다.');
-                window.location.href = 'login.html';
+                const result = await response.json();
+                if (result.message === 'User created') {
+                    alert('회원가입이 성공적으로 완료되었습니다.');
+                    window.location.href = 'login.html';
+                } else {
+                    console.error('회원가입 실패:', result.message);
+                }
             } else {
-                throw new Error('서버에서 오류가 발생했습니다.');
+                throw new Error('Network response was not ok ' + response.statusText);
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('회원가입 중 오류 발생:', error);
             alert('회원가입 중 오류가 발생했습니다.');
         }
     });
