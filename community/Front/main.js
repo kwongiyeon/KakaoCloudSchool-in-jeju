@@ -89,9 +89,4 @@ window.addEventListener('scroll', () => {
     const scrollHeight = window.innerHeight + window.scrollY;
     // 문서 전체 높이
     const documentHeight = document.body.offsetHeight;
-
-    // 페이지 하단에 도달하면 새로운 게시글 추가
-    // if (scrollHeight >= documentHeight) {
-    //     fetchPosts();
-    // }
 });
