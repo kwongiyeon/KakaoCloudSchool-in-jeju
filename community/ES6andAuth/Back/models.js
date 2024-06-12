@@ -5,107 +5,78 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 데이터 파일 경로
 const dbFilePath = path.join(__dirname, 'DB.json');
 
-// 데이터 읽기 함수
-export const readData = () => {
+const readData = () => {
     const data = fs.readFileSync(dbFilePath, 'utf8');
+    return JSON.parse(data);
 };
 
-// 데이터 쓰기 함수
 const writeData = (data) => {
     fs.writeFileSync(dbFilePath, JSON.stringify(data, null, 2), 'utf8');
 };
 
-const getAllUsers = () => readData().users;
-const getUserByEmail = (email) => readData().users.find(user => user.email === email);
-const createUser = (userData) => {
-    const data = readData();
-    data.users.push(userData);
-    writeData(data);
+const { users, posts, comments } = readData();
+
+export const getAllUsers = () => users;
+export const getUserByEmail = (email) => users.find(user => user.email === email);
+export const createUser = (userData) => {
+    users.push(userData);
+    writeData({ users, posts, comments });
 };
-const updateUser = (email, updatedUserData) => {
-    const data = readData();
-    const userIndex = data.users.findIndex(user => user.email === email);
+export const updateUser = (email, updatedUserData) => {
+    const userIndex = users.findIndex(user => user.email === email);
     if (userIndex !== -1) {
-        data.users[userIndex] = { ...data.users[userIndex], ...updatedUserData };
-        writeData(data);
+        users[userIndex] = { ...users[userIndex], ...updatedUserData };
+        writeData({ users, posts, comments });
     }
 };
-const deleteUser = (email) => {
-    const data = readData();
-    const userIndex = data.users.findIndex(user => user.email === email);
+export const deleteUser = (email) => {
+    const userIndex = users.findIndex(user => user.email === email);
     if (userIndex !== -1) {
-        data.users.splice(userIndex, 1);
-        writeData(data);
+        users.splice(userIndex, 1);
+        writeData({ users, posts, comments });
     }
 };
 
-const getAllPosts = () => readData().posts;
-const getPostById = (postId) => readData().posts.find(post => post.postId === postId);
-const createPost = (postData) => {
-    const data = readData();
-    postData.postId = data.posts.length ? data.posts[data.posts.length - 1].postId + 1 : 1;
-    data.posts.push(postData);
-    writeData(data);
+export const getAllPosts = () => posts;
+export const getPostById = (postId) => posts.find(post => post.postId === postId);
+export const createPost = (postData) => {
+    posts.push(postData);
+    writeData({ users, posts, comments });
 };
-const updatePost = (postId, updatedPostData) => {
-    const data = readData();
-    const postIndex = data.posts.findIndex(post => post.postId === postId);
+export const updatePost = (postId, updatedPostData) => {
+    const postIndex = posts.findIndex(post => post.postId === postId);
     if (postIndex !== -1) {
-        data.posts[postIndex] = { ...data.posts[postIndex], ...updatedPostData };
-        writeData(data);
+        posts[postIndex] = { ...posts[postIndex], ...updatedPostData };
+        writeData({ users, posts, comments });
     }
 };
-const deletePost = (postId) => {
-    const data = readData();
-    const postIndex = data.posts.findIndex(post => post.postId === postId);
+export const deletePost = (postId) => {
+    const postIndex = posts.findIndex(post => post.postId === postId);
     if (postIndex !== -1) {
-        data.posts.splice(postIndex, 1);
-        writeData(data);
+        posts.splice(postIndex, 1);
+        writeData({ users, posts, comments });
     }
 };
 
-const getAllComments = () => readData().comments;
-const getCommentsByPostId = (postId) => readData().comments.filter(comment => comment.postId === postId);
-const createComment = (commentData) => {
-    const data = readData();
-    commentData.commentId = data.comments.length ? data.comments[data.comments.length - 1].commentId + 1 : 1;
-    data.comments.push(commentData);
-    writeData(data);
+export const getAllComments = () => comments;
+export const getCommentsByPostId = (postId) => comments.filter(comment => comment.postId === postId);
+export const createComment = (commentData) => {
+    comments.push(commentData);
+    writeData({ users, posts, comments });
 };
-const updateComment = (commentId, updatedCommentData) => {
-    const data = readData();
-    const commentIndex = data.comments.findIndex(comment => comment.commentId === commentId);
+export const updateComment = (commentId, updatedCommentData) => {
+    const commentIndex = comments.findIndex(comment => comment.commentId === commentId);
     if (commentIndex !== -1) {
-        data.comments[commentIndex] = { ...data.comments[commentIndex], ...updatedCommentData };
-        writeData(data);
+        comments[commentIndex] = { ...comments[commentIndex], ...updatedCommentData };
+        writeData({ users, posts, comments });
     }
 };
-const deleteComment = (commentId) => {
-    const data = readData();
-    const commentIndex = data.comments.findIndex(comment => comment.commentId === commentId);
+export const deleteComment = (commentId) => {
+    const commentIndex = comments.findIndex(comment => comment.commentId === commentId);
     if (commentIndex !== -1) {
-        data.comments.splice(commentIndex, 1);
-        writeData(data);
+        comments.splice(commentIndex, 1);
+        writeData({ users, posts, comments });
     }
-};
-
-export {
-    getAllUsers,
-    getUserByEmail,
-    createUser,
-    updateUser,
-    deleteUser,
-    getAllPosts,
-    getPostById,
-    createPost,
-    updatePost,
-    deletePost,
-    getAllComments,
-    getCommentsByPostId,
-    createComment,
-    updateComment,
-    deleteComment
 };
