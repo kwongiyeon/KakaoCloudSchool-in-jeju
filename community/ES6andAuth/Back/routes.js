@@ -19,7 +19,7 @@ router.delete('/posts/:postId', postController.deletePost);
 
 // 댓글 관련 라우트
 router.get('/posts/:postId/comments', commentController.getCommentsByPostId);
-router.post('/posts/:postId/comments', commentController.addComment);
+router.post('/posts/:postId/comments', commentController.createComment);
 router.patch('/posts/:postId/comments/:commentId', commentController.updateComment);
 router.delete('/posts/:postId/comments/:commentId', commentController.deleteComment);
 
