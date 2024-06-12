@@ -1,4 +1,4 @@
-import { getAllUsers, getUserByEmail, createUser, updateUser, deleteUser, getAllPosts, getPostById, createPost, updatePost, deletePost, getAllComments, getCommentsByPostId, createComment, updateComment, deleteComment } from './models.js';
+import { getAllUsers, getUserByEmail, createUser, updateUser, deleteUser, getAllPosts, getPostById, createPost, updatePost, deletePost, getCommentsByPostId, createComment, updateComment, deleteComment } from './models.js';
 
 export const userController = {
   getAllUsers: (req, res) => {
@@ -53,22 +53,37 @@ export const postController = {
 };
 
 export const commentController = {
-  getAllComments: (req, res) => {
-    res.json(getAllComments());
-  },
   getCommentsByPostId: (req, res) => {
-    res.json(getCommentsByPostId(parseInt(req.params.postId)));
+      try {
+          const comments = getCommentsByPostId(parseInt(req.params.postId));
+          res.json(comments);
+      } catch (error) {
+          res.status(500).json({ error: 'Failed to get comments' });
+      }
   },
-  addComment: (req, res) => {
-    createComment({ postId: parseInt(req.params.postId), ...req.body });
-    res.status(201).json(req.body);
+  createComment: (req, res) => {
+      try {
+          const commentData = { postId: parseInt(req.params.postId), ...req.body };
+          createComment(commentData);
+          res.status(201).json(commentData);
+      } catch (error) {
+          res.status(500).json({ error: 'Failed to create comment' });
+      }
   },
   updateComment: (req, res) => {
-    updateComment(req.params.commentId, req.body);
-    res.json({ message: 'Comment updated' });
+      try {
+          updateComment(req.params.commentId, req.body);
+          res.json({ message: 'Comment updated' });
+      } catch (error) {
+          res.status(500).json({ error: 'Failed to update comment' });
+      }
   },
   deleteComment: (req, res) => {
-    deleteComment(req.params.commentId);
-    res.json({ message: 'Comment deleted' });
+      try {
+          deleteComment(req.params.commentId);
+          res.json({ message: 'Comment deleted' });
+      } catch (error) {
+          res.status(500).json({ error: 'Failed to delete comment' });
+      }
   }
 };
