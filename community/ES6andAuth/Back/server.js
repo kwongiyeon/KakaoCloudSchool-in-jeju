@@ -5,7 +5,6 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import router from './routes.js';
-import connection from './mysql.js';
 
 const app = express();
 const PORT = 3000;
