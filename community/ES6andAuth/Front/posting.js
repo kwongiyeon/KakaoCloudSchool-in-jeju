@@ -13,11 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
   
-            let chooseFileBase64 = null;
-            if (chooseFile) {
-                chooseFileBase64 = await toBase64(chooseFile);
-            }
-  
             const post = {
                 posttitle: posttitle,
                 content: content,
@@ -52,11 +47,4 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Submit button not found');
     }
-});
-
-const toBase64 = file => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
 });
