@@ -3,6 +3,9 @@ import { userController, postController, commentController } from './controllers
 
 const router = express.Router();
 
+// 로그인 관련 라우트
+router.post('/login', userController.login);
+
 // 사용자 관련 라우트
 router.get('/users', userController.getAllUsers);
 router.get('/users/:email', userController.getUserByEmail);
