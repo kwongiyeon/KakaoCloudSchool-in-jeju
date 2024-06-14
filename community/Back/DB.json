@@ -146,6 +146,37 @@
       "password": "Yzab!123",
       "nickName": "철수책상철책상",
       "chooseFile": "image.png"
+    },
+    {
+      "userId": 22,
+      "email": "vfdsa@email.com",
+      "password": "Yzab!456",
+      "nickName": "주먹밥머리",
+      "chooseFile": "image.png"
+    },
+    {
+      "email": "eakxm1234@naver.com",
+      "password": "Tkxkdakt2*",
+      "nickName": "eakxm",
+      "chooseFile": "감사합니다.png"
+    },
+    {
+      "email": "test1@email.com",
+      "password": "Tkxkdakt2*",
+      "nickName": "test",
+      "chooseFile": "https://monthly.chosun.com/up_fd/Mdaily/2017-09/bimg_thumb/2017042000056_0.jpg"
+    },
+    {
+      "email": "test2@email.com",
+      "password": "QWer12!!",
+      "nickName": "test2",
+      "chooseFile": "https://monthly.chosun.com/up_fd/Mdaily/2017-09/bimg_thumb/2017042000056_0.jpg"
+    },
+    {
+      "email": "test3@email.com",
+      "password": "Test3**12",
+      "nickName": "테스트3",
+      "chooseFile": "감사합니다.png"
     }
   ],
   "posts": [
@@ -431,6 +462,14 @@
       "datetime": "2024-06-03T08:31:41.177Z",
       "chooseFile": null,
       "postId": 26
+    },
+    {
+      "posttitle": "8888",
+      "content": "8888",
+      "nickName": "Kei",
+      "datetime": "2024-06-11T14:51:38.878Z",
+      "chooseFile": null,
+      "postId": 28
     }
   ],
   "comments": [
@@ -566,6 +605,13 @@
       "content": "댓글을 남겨주세요!",
       "commentId": 19,
       "postId": 25
+    },
+    {
+      "postId": 25,
+      "nickName": "현재 사용자",
+      "datetime": "2024-06-13T07:18:44.515Z",
+      "content": "성지 순례 왔습니다",
+      "commentId": 20
     }
   ]
 }
