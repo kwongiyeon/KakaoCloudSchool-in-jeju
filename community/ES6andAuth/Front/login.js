@@ -1,6 +1,6 @@
 const button = document.getElementById('button1');
 
-button.addEventListener('click', (event) => {
+button.addEventListener('click', async (event) => {
   event.preventDefault();
   
   const email = document.getElementById('email').value;
