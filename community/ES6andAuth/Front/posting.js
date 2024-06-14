@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 content: content,
                 nickName: "kakao", // 작성자 정보를 필요에 따라 수정하세요.
                 datetime: new Date().toISOString(),
-                chooseFile: chooseFile
+                chooseFile: chooseFile ? URL.createObjectURL(chooseFile) : null
             };
   
             fetch(`http://localhost:3000/posts`, {
