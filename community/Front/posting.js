@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const button = document.getElementById('button');
     if (button) {
-        button.addEventListener('click', (event) => {
+        button.addEventListener('click', async (event) => {
             event.preventDefault();
   
             const posttitle = document.getElementById('posttitle').value;
@@ -16,12 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const post = {
                 posttitle: posttitle,
                 content: content,
-                nickName: "Kei", // 작성자 정보를 필요에 따라 수정하세요.
+                nickName: "kakao", // 작성자 정보를 필요에 따라 수정하세요.
                 datetime: new Date().toISOString(),
                 chooseFile: chooseFile ? URL.createObjectURL(chooseFile) : null
             };
   
-            fetch("http://localhost:3000/posts", {
+            fetch(`http://localhost:3000/posts`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 alert('게시글이 성공적으로 등록되었습니다.');
-                window.location.href = `http://localhost:8000/detail.html?postId=${post.postId}`; // 게시글 상세 페이지로 리디렉션
+                window.location.href = `http://localhost:8000/detail.html?postId=${data.postId}`; // 게시글 상세 페이지로 리디렉션
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -47,5 +47,4 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Submit button not found');
     }
-  });
-  
+});
