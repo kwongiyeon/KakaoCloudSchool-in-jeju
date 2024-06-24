@@ -55,6 +55,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchPosts();
 });
 
+// 게시글 작성으로 이동
+document.getElementById('button').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = '/posting';
+});
 
 // 회원정보 수정
 document.getElementById('update').addEventListener('click', (e) => {
