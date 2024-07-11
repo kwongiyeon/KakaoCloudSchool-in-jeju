@@ -1,6 +1,0 @@
-데이터베이스
-8주차 과제
-Community 프로젝트에서 사용한 Express와 MySQL을 연결하고, json과 sql 데이터를 동기화하도록 만듭니다.
-
-Express = Node.js 웹 애플리케이션 프레임워크(백엔드 서버)
-MySQL = 오픈 소스 관계형 데이터베이스 관리 시스템(RDBMS)
