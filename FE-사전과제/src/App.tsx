@@ -1,3 +1,52 @@
+// import React, { useState } from 'react';
+// import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+// import Header from '../public/Header';
+// import StartupList from '../public/StartupList/StartupList';
+// import Menu from '../public/Menu/Menu';
+// import BookmarkList from '../public/BookmarkList/BookmarkList';
+// import { Startup } from '../public/StartupList/StartupList';
+
+// const AppContent: React.FC = () => {
+//   const location = useLocation();
+
+//   // 상태 관리
+//   const [startups, setStartups] = useState<Startup[]>([]);
+//   const [bookmarks, setBookmarks] = useState<Set<number>>(new Set());
+
+//   const toggleBookmark = (index: number) => {
+//     setBookmarks(prev => {
+//       const newBookmarks = new Set(prev);
+//       if (newBookmarks.has(index)) {
+//         newBookmarks.delete(index);
+//       } else {
+//         newBookmarks.add(index);
+//       }
+//       return newBookmarks;
+//     });
+//   };
+
+//   return (
+//     <>
+//       {location.pathname !== '/menu' && <Header />}
+//       <Routes>
+//         <Route path="/menu" element={<Menu />} />
+//         <Route path="/bookmark" element={<BookmarkList startups={startups} bookmarks={bookmarks} toggleBookmark={toggleBookmark} />} />
+//         <Route path="/" element={<StartupList startups={startups} setStartups={setStartups} bookmarks={bookmarks} toggleBookmark={toggleBookmark} />} />
+//       </Routes>
+//     </>
+//   );
+// };
+
+// const App: React.FC = () => {
+//   return (
+//     <Router>
+//       <AppContent />
+//     </Router>
+//   );
+// };
+
+// export default App;
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Header from '../public/Header';
@@ -83,3 +132,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
