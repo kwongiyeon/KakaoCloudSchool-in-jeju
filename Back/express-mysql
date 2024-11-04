@@ -1,0 +1,63 @@
+import connection from './mysql.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dbFilePath = path.join(__dirname, 'DB.json');
+
+const readData = () => {
+    const data = fs.readFileSync(dbFilePath, 'utf8');
+    return JSON.parse(data);
+};
+
+const insertUsers = (users) => {
+    users.forEach(user => {
+        const query = 'INSERT INTO Users (userId, email, password, nickName, chooseFile) VALUES (?, ?, ?, ?, ?)';
+        connection.query(query, [user.userId, user.email, user.password, user.nickName, user.chooseFile], (error, results) => {
+            if (error) {
+                console.error('User insert failed:', error);
+            } else {
+                console.log('User inserted:', results);
+            }
+        });
+    });
+};
+
+const insertPosts = (posts) => {
+    posts.forEach(post => {
+        const query = 'INSERT INTO Posts (postId, posttitle, content, nickName, datetime, chooseFile, likes, comments, views) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        connection.query(query, [post.postId, post.posttitle, post.content, post.nickName, post.datetime, post.chooseFile, post.likes, post.comments, post.views], (error, results) => {
+            if (error) {
+                console.error('Post insert failed:', error);
+            } else {
+                console.log('Post inserted:', results);
+            }
+        });
+    });
+};
+
+const insertComments = (comments) => {
+    comments.forEach(comment => {
+        const query = 'INSERT INTO Comments (commentId, postId, nickName, content, datetime) VALUES (?, ?, ?, ?, ?)';
+        connection.query(query, [comment.commentId, comment.postId, comment.nickName, comment.content, comment.datetime], (error, results) => {
+            if (error) {
+                console.error('Comment insert failed:', error);
+            } else {
+                console.log('Comment inserted:', results);
+            }
+        });
+    });
+};
+
+const insertDataToDB = () => {
+    const data = readData();
+    insertUsers(data.users);
+    insertPosts(data.posts);
+    insertComments(data.comments);
+};
+
+export default {
+    insertDataToDB
+};
